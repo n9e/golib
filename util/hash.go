@@ -26,6 +26,10 @@ var (
 )
 
 func RandString(n int) string {
+	return RandString2(n, letterBytes)
+}
+
+func RandString2(n int, letterBytes string) string {
 	b := make([]byte, n)
 	// A src.Int63() generates 63 random bits, enough for letterIdxMax characters!
 	for i, cache, remain := n-1, _randSrc.Int63(), letterIdxMax; i >= 0; {

@@ -89,10 +89,6 @@ func StartSession(cf SessionConfig, ctx context.Context) (*Session, error) {
 }
 
 func StartSessionWithDb(cf SessionConfig, ctx context.Context, db *orm.Db) (*Session, error) {
-	if cf.CookieLifetime == 0 {
-		cf.CookieLifetime = cf.GcInterval
-	}
-
 	if cf.SidLength == 0 {
 		cf.SidLength = 32
 	}
@@ -159,6 +155,14 @@ func (p *Session) Destroy(w http.ResponseWriter, r *http.Request) error {
 		MaxAge:   -1}
 
 	http.SetCookie(w, cookie)
+	return nil
+}
+
+func (p *Session) Done(w http.ResponseWriter, r *http.Request) error {
+	if p.config.CookieLifetime == 0 {
+		return p.Destroy(w, r)
+	}
+
 	return nil
 }
 
