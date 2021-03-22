@@ -49,7 +49,7 @@ var (
 
 func (se *statusError) Error() string {
 	p := (*spb.Status)(se)
-	return fmt.Sprintf("error: code = %s desc = %s", codes.Code(p.GetCode()), p.GetMessage())
+	return p.GetMessage()
 }
 
 func (se *statusError) Status() *Status {
